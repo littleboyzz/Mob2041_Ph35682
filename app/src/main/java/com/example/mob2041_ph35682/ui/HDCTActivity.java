@@ -1,0 +1,42 @@
+package com.example.mob2041_ph35682.ui;
+
+import android.os.Bundle;
+import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+
+
+import com.example.mob2041_ph35682.R;
+import com.example.mob2041_ph35682.adapter.HDCTAdapter;
+import com.example.mob2041_ph35682.database.DatabaseHelper;
+
+import java.util.Objects;
+
+public class HDCTActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(com.example.mob2041_ph35682.R.layout.activity_hoa_don_chi_tiet);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ListView lvSanPham = findViewById(R.id.lvSanPham);
+
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Hóa Đơn Chi Tiết");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        DatabaseHelper db = new DatabaseHelper(this);
+        String maHoaDon = getIntent().getStringExtra("maHoaDon");
+        HDCTAdapter hdctAdapter = new HDCTAdapter(this, db.layTatCaHDCT(maHoaDon));
+        lvSanPham.setAdapter(hdctAdapter);
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+}
+
